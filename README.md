@@ -1,6 +1,8 @@
 # Sistema de Roubos
 O script permite a você criar locais e métodos de roubo de uma maneira fácil e inteligente.
 
+Vídeo de exemplo: https://youtu.be/P1BA67hhnNg
+
  **Recursos**:
  - Configurar os itens recebidos ao realizar o roubo (é permitido mais de 1 item).
  - Configurar os itens necessários para realizar o roubo (Ex: lockpick ou masterpick).
