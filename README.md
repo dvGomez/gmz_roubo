@@ -1,6 +1,8 @@
 # Sistema de Roubos
 O script permite a você criar locais e métodos de roubo de uma maneira fácil e inteligente.
 
+Join in GMZ Community: https://discord.gg/J2MVhGJ
+
 Vídeo de exemplo: https://youtu.be/P1BA67hhnNg
 
  **Recursos**:
