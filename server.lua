@@ -64,7 +64,7 @@ function func.cancelRobbery()
     if user_id then
         tempoAssalto[user_id] = nil
         recompensa[user_id] = nil
-        local policia = vRP.getUsersByPermissionInService("policia.permissao")
+        local policia = vRP.getUsersByPermission("policia.permissao")
 		for l,w in pairs(policia) do
 			local player = vRP.getUserSource(parseInt(w))
 			local playerId = vRP.getUserId(player)
