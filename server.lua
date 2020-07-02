@@ -20,7 +20,7 @@ function func.checkRobbery(v, setup)
 
         for k,c in pairs(setup) do
             if k == v.type then
-                policias = vRP.getUsersByPermissionInService("policia.permissao")
+                policias = vRP.getUsersByPermission("policia.permissao")
                 if #policias < c.lspd then
                     TriggerClientEvent("TequilaNotify",source,"padrao", "Aviso","Número insuficiente de policiais ("..c.lspd..") no momento para iniciar o roubo.")
                 else
@@ -50,7 +50,7 @@ function func.checkRobbery(v, setup)
                         end
                     else
                         local tempoRestante = getRemaningTime(k, c.tempoEspera)
-                        TriggerClientEvent("TequilaNotify",source,"padrao", "Aviso","Você ainda deve aguardar "..tempoRestante.." segundos para realizar a ação.")
+                        TriggerClientEvent("Notify",player, "sucesso", "Você ainda deve aguardar "..tempoRestante.." segundos para realizar a ação.")
                     end
                 end
             end
@@ -95,7 +95,6 @@ Citizen.CreateThread(function()
 
                             for n,i in pairs(recompensa[p].items) do
                                 vRP.giveInventoryItem(p, n, i.receber)
-                                vRP.log2("roubo", "Assalto Cancelado", "O jogador "..p.." recebeu "..i.receber.." pelo assalto.", p)
                             end
     
                             tempoAssalto[p] = tempoAssalto[p] - 1
@@ -134,11 +133,11 @@ function hasNecessaryItemsToRob(user_id, c)
                     if data.inventory[k].amount >= v.qtd then
 
                     else
-                        TriggerClientEvent("TequilaNotify",source,"padrao", "Aviso","Você precisa de "..v.qtd.."x "..vRP.getItemName(k).." para iniciar")
+                        TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar")
                         return false
                     end
                 else
-                    TriggerClientEvent("TequilaNotify",source,"padrao", "Aviso","Você precisa de "..v.qtd.."x "..vRP.getItemName(k).." para iniciar.")
+                    TriggerClientEvent("Notify",source, "sucesso", Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar.")
                     return false
                 end
             end
@@ -161,7 +160,7 @@ function avisarPolicia(titulo, msg, x, y, z, name)
 			async(function()
 				TriggerClientEvent('blip:criar:assalto',player,x,y,z, name)
 				vRPclient.playSound(player,"Oneshot_Final","MP_MISSION_COUNTDOWN_SOUNDSET")
-				TriggerClientEvent("TequilaNotify",player,"padrao", titulo, msg)
+				TriggerClientEvent("Notify",player, "sucesso", msg)
 			end)
 		end
     end
@@ -172,7 +171,7 @@ function avisarPolicia(titulo, msg, x, y, z, name)
 			async(function()
 				TriggerClientEvent('blip:criar:assalto',player,x,y,z, name)
 				vRPclient.playSound(player,"Oneshot_Final","MP_MISSION_COUNTDOWN_SOUNDSET")
-				TriggerClientEvent("TequilaNotify",player, "padrao", "Admin", msg)
+				TriggerClientEvent("Notify",player, "sucesso", msg)
 			end)
 		end
     end
