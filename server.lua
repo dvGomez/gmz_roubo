@@ -137,7 +137,7 @@ function hasNecessaryItemsToRob(user_id, c)
                         return false
                     end
                 else
-                    TriggerClientEvent("Notify",source, "sucesso", Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar.")
+                    TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar.")
                     return false
                 end
             end
