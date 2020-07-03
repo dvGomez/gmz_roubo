@@ -19,6 +19,7 @@ function func.checkRobbery(v, setup)
     if user_id then
 
         for k,c in pairs(setup) do
+            Wait(1)
             if k == v.type then
                 policias = vRP.getUsersByPermission("policia.permissao")
                 if #policias < c.lspd then
@@ -27,18 +28,16 @@ function func.checkRobbery(v, setup)
                     if isEnabledToRob(k, c.tempoEspera) then
                         if hasNecessaryItemsToRob(user_id, c) then
                             print('Iniciou o roubo no banco: '.. v.id)
-					        vRP.log2("roubo", "Assalto Iniciado", "O jogador "..user_id.." iniciou o assalto em "..v.type, user_id)
-
-                            assalto[k] = true
                             ultimoAssaltoHora[k] = os.time()
                             recompensa[user_id] = c
                             tempoAssalto[user_id] = c.tempo
-    
+                            assalto[k] = true
+                            
                             for n,i in pairs(recompensa[user_id].items) do
                                 i.receber = parseInt(math.random(i.min, i.max) / c.tempo)
                                 print('Recompensa: '..i.receber)
                             end
-    
+
                             SetTimeout(c.tempo * 1000,function()
                                 assalto[k] = false
                             end)
@@ -46,11 +45,10 @@ function func.checkRobbery(v, setup)
                             vRPclient._playAnim(source,false,{{"anim@heists@ornate_bank@grab_cash_heels","grab"}},true)
                             TriggerClientEvent("iniciandoroubo", source, v.x, v.y, v.z, c.tempo, v.h)
                             avisarPolicia("Roubo em Andamento", "Tentativa de assalto a "..v.type..", verifique o ocorrido.", v.x, v.y, v.z, v.type)
-    
                         end
                     else
                         local tempoRestante = getRemaningTime(k, c.tempoEspera)
-                        TriggerClientEvent("Notify",player, "sucesso", "Você ainda deve aguardar "..tempoRestante.." segundos para realizar a ação.")
+                        TriggerClientEvent("Notify", source, "sucesso", "Você ainda deve aguardar "..tempoRestante.." segundos para realizar a ação.")
                     end
                 end
             end
@@ -61,14 +59,15 @@ end
 function func.cancelRobbery()
     local source = source
     local user_id = vRP.getUserId(source)
+
     if user_id then
         tempoAssalto[user_id] = nil
         recompensa[user_id] = nil
         local policia = vRP.getUsersByPermission("policia.permissao")
-		for l,w in pairs(policia) do
+        for l,w in pairs(policia) do
 			local player = vRP.getUserSource(parseInt(w))
 			local playerId = vRP.getUserId(player)
-			if player then
+            if player then
 				async(function()
 					TriggerClientEvent('blip:remover:assalto',player)
 					TriggerClientEvent('chatMessage',player,"911",{65,130,255},"O assaltante saiu correndo. ("..user_id..")")
@@ -80,6 +79,7 @@ function func.cancelRobbery()
 end
 
 function getRemaningTime(k, tempoEspera)
+    print(ultimoAssaltoHora[k])
     local t = ((os.time() - ultimoAssaltoHora[k]) - tempoEspera * 60) * -1
     return t
 end
@@ -111,7 +111,8 @@ Citizen.CreateThread(function()
 end)
 
 function isEnabledToRob(k, tempoEspera)
-
+    print(ultimoAssaltoHora[k])
+    print(tempoEspera)
     if ultimoAssaltoHora[k] then
         if (os.time() - ultimoAssaltoHora[k]) < tempoEspera * 60 then
             return false
@@ -133,11 +134,13 @@ function hasNecessaryItemsToRob(user_id, c)
                     if data.inventory[k].amount >= v.qtd then
 
                     else
-                        TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar")
+                        -- TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar")
+                        TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.getItemName(k).." para iniciar")
                         return false
                     end
                 else
-                    TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar.")
+                    -- TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar.")
+                    TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.getItemName(k).." para iniciar.")
                     return false
                 end
             end

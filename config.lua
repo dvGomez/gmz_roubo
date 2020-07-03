@@ -136,7 +136,7 @@ Config.setup = {
 		},
 		tempo = 300, --> Segundos
 		tempoEspera = 60, --> Minutos
-		lspd = 2 --> Minimo de policiais para assalto
+		lspd = 0 --> Minimo de policiais para assalto
 	},
 	['AmmuNation'] = {
 		items = {

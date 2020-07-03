@@ -27,7 +27,7 @@ Citizen.CreateThread(function()
 
 			else
 
-				if distance <= 30 then
+				if distance <= 30 and not andamento then
 					DrawMarker(29, v.x,v.y,v.z-0.30,0,0,0,0,180.0,180.0,1.0,1.0,1.0,235, 204, 52,100,1,0,0,1)
 					if distance <= 1.2 then
 						drawTxt("PRESSIONE  ~r~G~w~  PARA INICIAR O ROUBO",4,0.5,0.93,0.50,255,255,255,180)
@@ -38,7 +38,6 @@ Citizen.CreateThread(function()
 						end
 					end
 				end
-
 			end
 		end
 	end
