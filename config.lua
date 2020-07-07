@@ -159,7 +159,7 @@ Config.setup = {
 		},
 		tempo = 480, --> Segundos
 		tempoEspera = 120, --> Minutos
-		lspd = 3 --> Minimo de policiais para assalto
+		lspd = 0 --> Minimo de policiais para assalto
 	},
 	['bancopalleto'] = {
 		items = {

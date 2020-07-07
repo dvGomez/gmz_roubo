@@ -26,6 +26,7 @@ function func.checkRobbery(v, setup)
                     TriggerClientEvent("TequilaNotify",source,"padrao", "Aviso","Número insuficiente de policiais ("..c.lspd..") no momento para iniciar o roubo.")
                 else
                     if isEnabledToRob(k, c.tempoEspera) then
+                        print('Caiu')
                         if hasNecessaryItemsToRob(user_id, c) then
                             print('Iniciou o roubo no banco: '.. v.id)
                             ultimoAssaltoHora[k] = os.time()
@@ -111,8 +112,6 @@ Citizen.CreateThread(function()
 end)
 
 function isEnabledToRob(k, tempoEspera)
-    print(ultimoAssaltoHora[k])
-    print(tempoEspera)
     if ultimoAssaltoHora[k] then
         if (os.time() - ultimoAssaltoHora[k]) < tempoEspera * 60 then
             return false
@@ -124,6 +123,7 @@ function isEnabledToRob(k, tempoEspera)
 end
 
 function hasNecessaryItemsToRob(user_id, c)
+    local source = vRP.getUserSource(user_id)
     if c.itemsNecessarios then
         local itensNecessarios = #c.itemsNecessarios
         local count = 0
