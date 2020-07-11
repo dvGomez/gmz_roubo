@@ -26,9 +26,7 @@ function func.checkRobbery(v, setup)
                     TriggerClientEvent("TequilaNotify",source,"padrao", "Aviso","Número insuficiente de policiais ("..c.lspd..") no momento para iniciar o roubo.")
                 else
                     if isEnabledToRob(k, c.tempoEspera) then
-                        print('Caiu')
                         if hasNecessaryItemsToRob(user_id, c) then
-                            print('Iniciou o roubo no banco: '.. v.id)
                             ultimoAssaltoHora[k] = os.time()
                             recompensa[user_id] = c
                             tempoAssalto[user_id] = c.tempo
@@ -36,7 +34,6 @@ function func.checkRobbery(v, setup)
                             
                             for n,i in pairs(recompensa[user_id].items) do
                                 i.receber = parseInt(math.random(i.min, i.max) / c.tempo)
-                                print('Recompensa: '..i.receber)
                             end
 
                             SetTimeout(c.tempo * 1000,function()
@@ -80,7 +77,6 @@ function func.cancelRobbery()
 end
 
 function getRemaningTime(k, tempoEspera)
-    print(ultimoAssaltoHora[k])
     local t = ((os.time() - ultimoAssaltoHora[k]) - tempoEspera * 60) * -1
     return t
 end
