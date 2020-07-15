@@ -33,7 +33,8 @@ Citizen.CreateThread(function()
 						drawTxt("PRESSIONE  ~r~G~w~  PARA INICIAR O ROUBO",4,0.5,0.93,0.50,255,255,255,180)
 						if IsControlJustPressed(0,47) and not IsPedInAnyVehicle(ped) then
 							if GetEntityModel(ped) == GetHashKey("mp_m_freemode_01") or GetEntityModel(ped) == GetHashKey("mp_f_freemode_01") then
-								func.checkRobbery(v, Config.setup)
+								-- func.checkRobbery(v, Config.setup)
+								TriggerServerEvent("gmz:checkRobbery", json.encode(v), json.encode(Config.setup))
 							end
 						end
 					end

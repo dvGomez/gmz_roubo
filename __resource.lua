@@ -8,5 +8,12 @@ client_scripts {
 
 server_scripts {
 	"@vrp/lib/utils.lua",
-	"server.lua"
+	"server.lua",
+	"GMZ-Roubo-Server.net.dll"
 }
+
+files {
+	"Newtonsoft.Json.dll"
+}
+
+clr_disable_task_scheduler 'not'

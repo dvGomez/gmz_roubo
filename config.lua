@@ -124,7 +124,8 @@ Config.setup = {
 			['lockpick'] = {qtd = 1},
 		},
 		tempo = 90, --> Segundos
-		tempoEspera = 20, --> Minutos
+		tempoEspera = 20, --> Minutos,
+		chanceSucesso = 10, --> Em porcentagem, por exemplo, chanceSucesso = 80 = 80% de chance de dar certo
 		lspd = 0 --> Minimo de policiais para assalto
 	},
 	['lojinha'] = {
@@ -158,8 +159,9 @@ Config.setup = {
 			['masterpick'] = {qtd = 1},
 		},
 		tempo = 480, --> Segundos
-		tempoEspera = 120, --> Minutos
-		lspd = 3 --> Minimo de policiais para assalto
+		tempoEspera = 200, --> Minutos
+		chanceSucesso = 80, --> Em porcentagem, por exemplo, chanceSucesso = 80 = 80% de chance de dar certo
+		lspd = 0 --> Minimo de policiais para assalto
 	},
 	['bancopalleto'] = {
 		items = {
