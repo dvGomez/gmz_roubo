@@ -8,37 +8,39 @@ local segundos = 0
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(1)
+		Wait(1)
 		for k,v in pairs(Config.roubos) do
-
-			local ped = PlayerPedId()
-			local x,y,z = table.unpack(GetEntityCoords(ped))
-			local bowz,cdz = GetGroundZFor_3dCoord(v.x,v.y,v.z)
-			local distance = GetDistanceBetweenCoords(v.x,v.y,cdz,x,y,z,true)
-			if andamento then
-				drawTxt("APERTE ~r~M~w~ PARA CANCELAR O ROUBO EM ANDAMENTO",4,0.5,0.91,0.36,255,255,255,30)
-				drawTxt("RESTAM ~g~"..segundos.." SEGUNDOS ~w~PARA TERMINAR",4,0.5,0.93,0.50,255,255,255,180)
-				if IsControlJustPressed(0,244) or GetEntityHealth(ped) <= 100 then
-					andamento = false
-					ClearPedTasks(ped)
-					func.cancelRobbery()
-					TriggerEvent('cancelando',false)
-				end
-
-			else
-
-				if distance <= 30 and not andamento then
-					DrawMarker(29, v.x,v.y,v.z-0.30,0,0,0,0,180.0,180.0,1.0,1.0,1.0,235, 204, 52,100,1,0,0,1)
-					if distance <= 1.2 then
-						drawTxt("PRESSIONE  ~r~G~w~  PARA INICIAR O ROUBO",4,0.5,0.93,0.50,255,255,255,180)
-						if IsControlJustPressed(0,47) and not IsPedInAnyVehicle(ped) then
-							if GetEntityModel(ped) == GetHashKey("mp_m_freemode_01") or GetEntityModel(ped) == GetHashKey("mp_f_freemode_01") then
-								-- func.checkRobbery(v, Config.setup)
-								TriggerServerEvent("gmz:checkRobbery", json.encode(v), json.encode(Config.setup))
-							end
+			local distance = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()),v.x,v.y,v.z, false)
+			if distance <= 30 and not andamento then
+				local ped = PlayerPedId()
+				DrawMarker(29, v.x,v.y,v.z-0.30,0,0,0,0,180.0,180.0,1.0,1.0,1.0,235, 204, 52,100,1,0,0,1)
+				if distance <= 1.2 then
+					drawTxt("PRESSIONE  ~r~G~w~  PARA INICIAR O ROUBO",4,0.5,0.93,0.50,255,255,255,180)
+					if IsControlJustPressed(0,47) and not IsPedInAnyVehicle(ped) then
+						if GetEntityModel(ped) == GetHashKey("mp_m_freemode_01") or GetEntityModel(ped) == GetHashKey("mp_f_freemode_01") then
+							-- func.checkRobbery(v, Config.setup)
+							TriggerServerEvent("gmz:checkRobbery", json.encode(v), json.encode(Config.setup))
 						end
 					end
 				end
+			end
+		end
+	end
+end)
+
+
+Citizen.CreateThread(function()
+	while true do
+		Wait(1)
+		if andamento then
+			local ped = PlayerPedId()
+			drawTxt("APERTE ~r~M~w~ PARA CANCELAR O ROUBO EM ANDAMENTO",4,0.5,0.91,0.36,255,255,255,30)
+			drawTxt("RESTAM ~g~"..segundos.." SEGUNDOS ~w~PARA TERMINAR",4,0.5,0.93,0.50,255,255,255,180)
+			if IsControlJustPressed(0,244) or GetEntityHealth(ped) <= 100 then
+				andamento = false
+				ClearPedTasks(ped)
+				func.cancelRobbery()
+				TriggerEvent('cancelando',false)
 			end
 		end
 	end
