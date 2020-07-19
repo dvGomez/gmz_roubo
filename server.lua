@@ -158,13 +158,13 @@ function hasNecessaryItemsToRob(user_id, c)
                     if data.inventory[k].amount >= v.qtd then
 
                     else
-                        -- TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar")
-                        TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.getItemName(k).." para iniciar")
+                        TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar")
+                        -- TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.getItemName(k).." para iniciar")
                         return false
                     end
                 else
-                    -- TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar.")
-                    TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.getItemName(k).." para iniciar.")
+                    TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar.")
+                    -- TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.getItemName(k).." para iniciar.")
                     return false
                 end
             end
