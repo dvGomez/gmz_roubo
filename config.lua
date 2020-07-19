@@ -125,7 +125,7 @@ Config.setup = {
 		},
 		tempo = 90, --> Segundos
 		tempoEspera = 20, --> Minutos,
-		chanceSucesso = 10, --> Em porcentagem, por exemplo, chanceSucesso = 80 = 80% de chance de dar certo
+		chanceSucesso = 100, --> Em porcentagem, por exemplo, chanceSucesso = 80 = 80% de chance de dar certo
 		lspd = 0 --> Minimo de policiais para assalto
 	},
 	['lojinha'] = {

@@ -30,22 +30,25 @@ AddEventHandler("gmz:startRobbery", function(source, rouboJson, setupJson)
                         if hasNecessaryItemsToRob(user_id, c) then
                             if tryToRob(k, c, v, c.chanceSucesso) then
                                 if hasNecessaryItemsToRob(user_id, c) then
-                                    ultimoAssaltoHora[k] = os.time()
-                                    recompensa[user_id] = c
-                                    tempoAssalto[user_id] = c.tempo
-                                    assalto[k] = true
-                                    
-                                    for n,i in pairs(recompensa[user_id].items) do
-                                        i.receber = parseInt(math.random(i.min, i.max) / c.tempo)
-                                    end
-        
-                                    SetTimeout(c.tempo * 1000,function()
-                                        assalto[k] = false
-                                    end)
+                                    -- TODO: Implementar sistemas da checklist...
+                                    if getNecessaryItemsToRob(user_id, c) then
+                                        ultimoAssaltoHora[k] = os.time()
+                                        recompensa[user_id] = c
+                                        tempoAssalto[user_id] = c.tempo
+                                        assalto[k] = true
+                                        
+                                        for n,i in pairs(recompensa[user_id].items) do
+                                            i.receber = parseInt(math.random(i.min, i.max) / c.tempo)
+                                        end
             
-                                    vRPclient._playAnim(source,false,{{"anim@heists@ornate_bank@grab_cash_heels","grab"}},true)
-                                    TriggerClientEvent("iniciandoroubo", source, v.x, v.y, v.z, c.tempo, v.h)
-                                    avisarPolicia("Roubo em Andamento", "Assalto a "..v.type.." em andamento, verifique o ocorrido.", v.x, v.y, v.z, v.type)
+                                        SetTimeout(c.tempo * 1000,function()
+                                            assalto[k] = false
+                                        end)
+                
+                                        vRPclient._playAnim(source,false,{{"anim@heists@ornate_bank@grab_cash_heels","grab"}},true)
+                                        TriggerClientEvent("iniciandoroubo", source, v.x, v.y, v.z, c.tempo, v.h)
+                                        avisarPolicia("Roubo em Andamento", "Assalto a "..v.type.." em andamento, verifique o ocorrido.", v.x, v.y, v.z, v.type)
+                                    end
                                 end
                             else
                                 TriggerClientEvent("Notify", source, "sucesso", "Você não conseguiu abrir o cofre, é melhor correr!")
@@ -60,53 +63,6 @@ AddEventHandler("gmz:startRobbery", function(source, rouboJson, setupJson)
         end
     end
 end)
-
--- function func.checkRobbery(v, setup)
---     local source = source
---     local user_id = vRP.getUserId(source)
---     if user_id then
-
---         for k,c in pairs(setup) do
---             Wait(1)
---             if k == v.type then
---                 policias = vRP.getUsersByPermission("policia.permissao")
---                 if #policias < c.lspd then
---                     TriggerClientEvent("Notify",source,"negado", "Número insuficiente de policiais ("..c.lspd..") no momento para iniciar o roubo.")
---                 else
---                     if isEnabledToRob(k, c.tempoEspera) then
---                         if hasNecessaryItemsToRob(user_id, c) then
---                             if tryToRob(k, c, v, c.chanceSucesso) then
---                                 if hasNecessaryItemsToRob(user_id, c) then
---                                     ultimoAssaltoHora[k] = os.time()
---                                     recompensa[user_id] = c
---                                     tempoAssalto[user_id] = c.tempo
---                                     assalto[k] = true
-                                    
---                                     for n,i in pairs(recompensa[user_id].items) do
---                                         i.receber = parseInt(math.random(i.min, i.max) / c.tempo)
---                                     end
-        
---                                     SetTimeout(c.tempo * 1000,function()
---                                         assalto[k] = false
---                                     end)
-            
---                                     vRPclient._playAnim(source,false,{{"anim@heists@ornate_bank@grab_cash_heels","grab"}},true)
---                                     TriggerClientEvent("iniciandoroubo", source, v.x, v.y, v.z, c.tempo, v.h)
---                                     avisarPolicia("Roubo em Andamento", "Tentativa de assalto a "..v.type..", verifique o ocorrido.", v.x, v.y, v.z, v.type)
---                                 end
---                             else
---                                 TriggerClientEvent("Notify", source, "sucesso", "Você não conseguiu abrir o cofre, é melhor correr!")
---                             end
---                         end
---                     else
---                         local tempoRestante = getRemaningTime(k, c.tempoEspera)
---                         TriggerClientEvent("Notify", source, "sucesso", "Você ainda deve aguardar "..tempoRestante.." segundos para realizar a ação.")
---                     end
---                 end
---             end
---         end
---     end
--- end
 
 function tryToRob(k, c, v, chance)
     if chance then
@@ -202,13 +158,13 @@ function hasNecessaryItemsToRob(user_id, c)
                     if data.inventory[k].amount >= v.qtd then
 
                     else
-                        TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar")
-                        -- TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.getItemName(k).." para iniciar")
+                        -- TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar")
+                        TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.getItemName(k).." para iniciar")
                         return false
                     end
                 else
-                    TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar.")
-                    -- TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.getItemName(k).." para iniciar.")
+                    -- TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.itemNameList(k).." para iniciar.")
+                    TriggerClientEvent("Notify",source, "sucesso", "Você precisa de "..v.qtd.."x "..vRP.getItemName(k).." para iniciar.")
                     return false
                 end
             end
